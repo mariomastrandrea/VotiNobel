@@ -4,11 +4,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DBConnect {
+public class DBConnect 
+{
 
-	static private final String jdbcUrl = "jdbc:mysql://localhost/esamitriennale?user=root&password=rootroot";
+	static private final String jdbcUrl = "jdbc:mariadb://localhost/esamitriennale?user=root&password=root";
 
-	public static Connection getConnection() {
+	public static Connection getConnection() 
+	{
 
 		try {
 			Connection connection = DriverManager.getConnection(jdbcUrl);
