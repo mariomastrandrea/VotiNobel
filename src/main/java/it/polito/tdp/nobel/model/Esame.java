@@ -2,17 +2,12 @@ package it.polito.tdp.nobel.model;
 
 public class Esame 
 {
-
 	private String codins;
 	private String nomeCorso;
 	private int voto;
 	private int crediti;
 
-	public Esame() 
-	{
-
-	}
-
+	
 	public Esame(String codins, String nomecorso, int crediti, int voto) 
 	{
 		this.codins = codins;
@@ -26,39 +21,19 @@ public class Esame
 		return codins;
 	}
 
-	public void setCodins(String codins) 
-	{
-		this.codins = codins;
-	}
-
 	public int getVoto() 
 	{
 		return voto;
-	}
-
-	public void setVoto(int voto) 
-	{
-		this.voto = voto;
 	}
 	
 	public int getCrediti() 
 	{
 		return crediti;
 	}
-
-	public void setCrediti(int crediti) 
-	{
-		this.crediti = crediti;
-	}
 	
 	public String getNomeCorso() 
 	{
 		return nomeCorso;
-	}
-
-	public void setNomeCorso(String nomeCorso) 
-	{
-		this.nomeCorso = nomeCorso;
 	}
 
 	@Override

@@ -9,32 +9,40 @@ import java.util.List;
 import it.polito.tdp.nobel.model.Esame;
 
 
-public class EsameDAO {
+public class EsameDAO 
+{
+	private String tabella = "Esami";
 
-	public List<Esame> getTuttiEsami() 
+	public List<Esame> getTuttiGliEsami() 
 	{
-		final String sql = "SELECT * FROM esami";
+		final String sql = "SELECT * FROM " + tabella;
 
-		List<Esame> voti = new ArrayList<Esame>();
+		List<Esame> votiEsami = new ArrayList<Esame>();
 
-		try {
-			Connection conn = DBConnect.getConnection();
-			PreparedStatement st = conn.prepareStatement(sql);
+		try 
+		{
+			Connection connection = DBConnect.getConnection();
+			PreparedStatement statement = connection.prepareStatement(sql);
+			ResultSet result = statement.executeQuery();
 
-			ResultSet rs = st.executeQuery();
-
-			while (rs.next()) {
-
-				voti.add(new Esame(rs.getString("codins"), rs.getString("nomecorso"), rs.getInt("crediti"), rs.getInt("voto")));
+			while (result.next()) 
+			{
+				votiEsami.add(new Esame(result.getString("codins"),
+										result.getString("nomecorso"), 
+										result.getInt("crediti"), 
+										result.getInt("voto")));
 			}
-
-			conn.close();
-			return voti;
-
-		} catch (SQLException e) {
-			// e.printStackTrace();
-			throw new RuntimeException("Errore DB", e);
+			result.close();
+			statement.close();
+			connection.close();
 		}
+		catch (SQLException sqle) 
+		{
+			sqle.printStackTrace();
+			throw new RuntimeException("Errore DB in getTuttiGliEsami()", sqle);
+		}
+		
+		return votiEsami;
 	}
 	
 	/*
@@ -42,53 +50,70 @@ public class EsameDAO {
 	 */
 	public boolean inserisciEsame(Esame esame) 
 	{
-		String sql = "INSERT IGNORE INTO `esamitriennale`.`esami` (`codins`, `nomecorso`, `voto`, `crediti`) VALUES(?,?,?,?)";
-		boolean returnValue = false;
+		String sql = "INSERT IGNORE INTO esamitriennale." + tabella + " (codins, nomecorso, voto, crediti) VALUES(?,?,?,?)";
+		boolean inserted = false;
 		
-		try {
-			Connection conn = DBConnect.getConnection();
-			PreparedStatement st = conn.prepareStatement(sql);
-			st.setString(1, esame.getCodins());
-			st.setString(2, esame.getNomeCorso());
-			st.setInt(3, esame.getVoto());
-			st.setInt(4, esame.getCrediti());
+		try 
+		{
+			Connection connection = DBConnect.getConnection();
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, esame.getCodins());
+			statement.setString(2, esame.getNomeCorso());
+			statement.setInt(3, esame.getVoto());
+			statement.setInt(4, esame.getCrediti());
 			
-			int res = st.executeUpdate();	
+			int result = statement.executeUpdate();	
 
-			if (res == 1)
-				returnValue = true;
-
-			conn.close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Errore inserimento Db", e);
+			if (result == 1)
+				inserted = true;
+			
+			statement.close();
+			connection.close();
+		} 
+		catch (SQLException sqle) 
+		{
+			sqle.printStackTrace();
+			throw new RuntimeException("Errore inserimento esame in DB", sqle);
 		}
 		
-		return returnValue;
+		return inserted;
 	}
 
-	public boolean cancellaTuttiEsami() {
+	public boolean cancellaTuttiEsami() 
+	{	
+		boolean deleted = false;
 		
-		String sql = "DELETE FROM esami";
-		boolean returnValue = false;
-		
-		try {
-			Connection conn = DBConnect.getConnection();
-			PreparedStatement st = conn.prepareStatement(sql);
-			int res = st.executeUpdate();	
-
-			if (res == 1)
-				returnValue = true;
-
-			conn.close();
+		try 
+		{
+			Connection connection = DBConnect.getConnection();
+			PreparedStatement statement1 = connection.prepareStatement("SELECT COUNT(*) AS cnt FROM "+tabella);
+			ResultSet result1 = statement1.executeQuery();
+			int numEsami = 0;
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Errore cancellazione Db", e);
+			if(result1.next())
+				numEsami = result1.getInt("cnt");
+			else
+				throw new SQLException();
+			
+			result1.close();
+			statement1.close();
+			
+			PreparedStatement statement2 = connection.prepareStatement("DELETE FROM "+tabella);
+			int result = statement2.executeUpdate();	
+
+			if (result == numEsami)
+				deleted = true;
+			else
+				throw new SQLException();
+
+			connection.close();
+		}
+		catch (SQLException sqle)
+		{
+			sqle.printStackTrace();
+			throw new RuntimeException("Errore cancellazione DB", sqle);
 		}
 		
-		return returnValue;
-
+		return deleted;
 	}
 }

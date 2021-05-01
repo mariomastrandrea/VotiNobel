@@ -5,7 +5,7 @@ input:
 output:
 	- Insieme (Set) di oggetti di tipo Esame, sottoinsieme di PARTENZA, tale che:
 		* somma Esame.crediti() == m
-		* somma Esame.voto() sia MAX
+		* media Esame.voto() sia MAX
 		
 -------------------------
 APPROCCIO 1 (il più "stupido")

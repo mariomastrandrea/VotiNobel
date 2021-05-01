@@ -1,13 +1,15 @@
 package it.polito.tdp.nobel.model;
 
-public class TestModel {
+public class TestModel
+{
+	public static void main(String[] args)
+	{
+		MyVotiNobelModel model = new MyVotiNobelModel();
+		System.out.println("getName(): " + model.getClass().getName());
+		System.out.println("getSimpleName(): " + model.getClass().getSimpleName());
+		System.out.println("getCanonicalName(): " + model.getClass().getCanonicalName());
+		System.out.println("toString(): " + model.getClass().toString());
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-		Model model = new Model();
-		model.calcolaSottoinsiemeEsami(20);
-		
 	}
-
+	
 }

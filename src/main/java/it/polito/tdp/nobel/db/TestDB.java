@@ -9,7 +9,7 @@ public class TestDB {
 
 		try {
 			EsameDAO vdao = new EsameDAO();
-			vdao.getTuttiEsami();
+			vdao.getTuttiGliEsami();
 			System.out.println("TestDB passed");
 
 		} catch (RuntimeException e) {

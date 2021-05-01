@@ -12,7 +12,7 @@ crediti con la media più alta. Utilizzare un algoritmo ricorsivo per implementa
 
 ### Progetto Eclipse
 
-Uitilizzare il progetto base del branch *master*.
+Utilizzare il progetto base del branch *master*.
 
 ### Database
 

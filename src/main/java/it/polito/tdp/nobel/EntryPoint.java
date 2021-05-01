@@ -1,28 +1,33 @@
 package it.polito.tdp.nobel;
 
 import javafx.application.Application;
-
 import it.polito.tdp.nobel.model.Model;
+import it.polito.tdp.nobel.model.MyVotiNobelModel;
+import it.polito.tdp.nobel.model.VotiNobelModel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
+@SuppressWarnings("unused")
 public class EntryPoint extends Application 
 {
     @Override
     public void start(Stage stage) throws Exception 
     {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Scene.fxml"));
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Scene_VotiNobel.fxml"));
     	Parent root = loader.load();
         Scene scene = new Scene(root);
          
-        Model model = new Model();
         FXMLController controller = loader.getController();
+        
+        Model model = new MyVotiNobelModel();
+        //Model model = new VotiNobelModel();
         controller.setModel(model);
     	
-        stage.setTitle("VotiNobel");
+        String nomeModel = model.getClass().getSimpleName();
+        stage.setTitle("Voti Nobel - " + nomeModel);
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
